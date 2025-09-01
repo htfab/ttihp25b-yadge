@@ -16,8 +16,8 @@ lib = gdstk.read_gds(os.path.join(script_path, "../gds/tt_um_template_1x1.gds"))
 top_cell = lib.top_level()[0]
 
 gds_width, gds_height = top_cell.bounding_box()[1]
-panel_gap = 2.0  # µm
-theta = 53  # degrees
+margin_right = 8
+gds_width -= margin_right
 
 
 def align_to_grid(value: float):
@@ -35,13 +35,13 @@ colors = {
 }
 
 alt_stripes_h = [(0, 7), (28, 47), (68, 87), (108, 127), (148, gds_height)]
-alt_stripes_v = [(0, 9.06), (44.24, 56.2), (92.15, 106.5), (143.22, 158), (192, gds_width)]
+alt_stripes_v = [(38.71, 51.35), (92.15, 102.16), (143.22, 154)]
 
 patterns = [
-    ('R', [((0, 129), (gds_width+2, 146), 'V')] + [((11.06, y1), (45, y2), 'V') for y1, y2 in alt_stripes_h]),
-    ('Y', [((0, 89), (gds_width+2, 106), 'V')] + [((58.2, y1), (93, y2), 'V') for y1, y2 in alt_stripes_h]),
-    ('G', [((0, 49), (gds_width+2, 66), 'V')] + [((108.5, y1), (144, y2), 'V') for y1, y2 in alt_stripes_h]),
-    ('B', [((0, 9), (gds_width+2, 26), 'V')] + [((160, y1), (193, y2), 'V') for y1, y2 in alt_stripes_h]),
+    ('R', [((0, 129), (gds_width+2, 146), 'V')] + [((0, y1), (38.71, y2), 'V') for y1, y2 in alt_stripes_h]),
+    ('Y', [((0, 89), (gds_width+2, 106), 'V')] + [((53.35, y1), (92.15, y2), 'V') for y1, y2 in alt_stripes_h]),
+    ('G', [((0, 49), (gds_width+2, 66), 'V')] + [((104.16, y1), (144, y2), 'V') for y1, y2 in alt_stripes_h]),
+    ('B', [((0, 9), (gds_width+2, 26), 'V')] + [((156, y1), (196, y2), 'V') for y1, y2 in alt_stripes_h]),
     ('I', [((x1, y1), (x2, y2), 'F') for y1, y2 in alt_stripes_h for x1, x2 in alt_stripes_v]),
 ]
 
@@ -71,12 +71,12 @@ for name, areas in patterns:
         )
     print(f"Pattern: {name}, λ={wavelength_nm}, pitch={pitch}")
 
-# Add partial top-right "red" cell manually
-subcell = gdstk.Cell("pattern_Rx")
-rect = gdstk.rectangle((0, 0), (3, 17), layer=topmetal1_layer, datatype=topmetal1_datatype)
-subcell.add(rect)
-lib.add(subcell)
-top_cell.add(gdstk.Reference(subcell, (199.08, 129)))
+## Add partial top-right "red" cell manually
+#subcell = gdstk.Cell("pattern_Rx")
+#rect = gdstk.rectangle((0, 0), (3, 17), layer=topmetal1_layer, datatype=topmetal1_datatype)
+#subcell.add(rect)
+#lib.add(subcell)
+#top_cell.add(gdstk.Reference(subcell, (199.08, 129)))
 
 # No fill for the whole cell
 no_fill_rect = gdstk.rectangle(
