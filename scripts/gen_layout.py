@@ -16,7 +16,7 @@ lib = gdstk.read_gds(os.path.join(script_path, "../gds/tt_um_template_1x1.gds"))
 top_cell = lib.top_level()[0]
 
 gds_width, gds_height = top_cell.bounding_box()[1]
-margin_right = 8
+margin_right = 9
 gds_width -= margin_right
 
 
@@ -35,18 +35,18 @@ colors = {
 }
 
 alt_stripes_h = [(0, 7), (28, 47), (68, 87), (108, 127), (148, gds_height)]
-alt_stripes_v = [(38.71, 51.35), (92.15, 102.16), (143.22, 154)]
+alt_stripes_v = [(40.815, 50.1), (91.54, 101.6), (142.4, 152.52)]
 
 patterns = [
-    ('R', [((0, 129), (gds_width+2, 146), 'V')] + [((0, y1), (38.71, y2), 'V') for y1, y2 in alt_stripes_h]),
-    ('Y', [((0, 89), (gds_width+2, 106), 'V')] + [((53.35, y1), (92.15, y2), 'V') for y1, y2 in alt_stripes_h]),
-    ('G', [((0, 49), (gds_width+2, 66), 'V')] + [((104.16, y1), (144, y2), 'V') for y1, y2 in alt_stripes_h]),
-    ('B', [((0, 9), (gds_width+2, 26), 'V')] + [((156, y1), (196, y2), 'V') for y1, y2 in alt_stripes_h]),
+    ('R', [((0, 129), (gds_width+2, 146), 'V')] + [((0, y1), (40.815, y2), 'V') for y1, y2 in alt_stripes_h]),
+    ('Y', [((0, 89), (gds_width+2, 106), 'V')] + [((51.74, y1), (91.54, y2), 'V') for y1, y2 in alt_stripes_h]),
+    ('G', [((0, 49), (gds_width+2, 66), 'V')] + [((103.24, y1), (142.4, y2), 'V') for y1, y2 in alt_stripes_h]),
+    ('B', [((0, 9), (gds_width+2, 26), 'V')] + [((154.16, y1), (196, y2), 'V') for y1, y2 in alt_stripes_h]),
     ('I', [((x1, y1), (x2, y2), 'F') for y1, y2 in alt_stripes_h for x1, x2 in alt_stripes_v]),
 ]
 
-min_pitch = 4.0
-gap_width = 2.0
+min_pitch = 3.28
+gap_width = 1.64
 min_wavelength_nm = 470
 for name, areas in patterns:
     wavelength_nm = colors[name]
